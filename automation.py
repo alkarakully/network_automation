@@ -16,5 +16,7 @@ session.connect(hostname, port=22, username= username, password=password)
 stdin, stdout, stderr = session.exec_command("show ip interface brief")
 
 output = stdout.readlines()
+sleep(0.25)
+for line in output:
+    print(line.rstrip('\n'))
 
-print(output)
