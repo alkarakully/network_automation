@@ -6,10 +6,13 @@ from time import sleep
 import logging
 import datetime
 
+cred = '\033[91m'
+cgrn = '\033[92m'
+cend = '\033[0m'
 today = datetime.date.today()
-
 logging.basicConfig(filename=str(today), level=logging.DEBUG)
 logger = logging.getLogger("paramiko")
+
 
 username = input("Username: ")
 password = getpass.getpass(prompt="Password: ", stream=None)
@@ -38,13 +41,18 @@ try:
 
     i = 1
     while i < len(commands):
-        print('\n======================= {0} : {1} =======================\n'.format(datetime.datetime.now(), commands[i].rstrip('\n')))
+        print(cred + '\n======================= {0} : {1} =======================\n'.format(datetime.datetime.now(), commands[i].rstrip('\n')) + cend)
+        outputFile = open(str(hostname) +  '.txt', 'a')
+        outputFile.write('\n======================= {0} : {1} =======================\n'.format(datetime.datetime.now(), commands[i].rstrip('\n')))
         out = outputs[i].split('\n')
         for line in out:
             if '#' in line:
                 continue
             else:
-                print(line.rstrip('\n'))
+                print(cgrn + line.rstrip('\n') + cend)
+                outputFile.write(line + '\n')
         i +=1
+        outputFile.close()
+
 except:
-    print("\n*********** Please, check your username and password")
+    print("Please, check your username and password")
